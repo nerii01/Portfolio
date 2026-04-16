@@ -88,7 +88,7 @@ function App() {
           Language='C++'
           Header={'Includes'}
           Code={Code}
-          HeaderColor={'rgba(143, 129, 68, 0.1)'}
+          HeaderColor={'rgba(142, 129, 68, 0.1)'}
           MaxHeight={400}
         />
 
