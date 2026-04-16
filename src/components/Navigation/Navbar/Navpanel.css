@@ -28,6 +28,7 @@
   gap: 10px;
   color: var(--text-code);
   transition: 0.25s ease;
+  cursor: pointer;
 }
 
 .navpanel_tab.active {
@@ -64,4 +65,42 @@
   background-color: rgba(116, 95, 68, 0.699);
   border-radius: 20px;
   z-index: -1;
+}
+
+.navpanel_wrapper_mobile {
+  width: fit-content;
+  padding: 5px 10px;
+  box-sizing: border-box;
+  font-weight: 100;
+  text-transform: uppercase;
+  font-size: 20px;
+  border-radius: 20px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-code);
+  transition: 0.25s ease;
+  cursor: pointer;
+
+  bottom: 10px;
+  position: fixed;
+  z-index: 10;
+}
+
+.navpanel_wrapper_mobile .navpanel_wrapper {
+  z-index: 10;
+  width: fit-content;
+
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(5px);
+  padding: 5px;
+  box-sizing: border-box;
+  border-radius: 20px;
 }

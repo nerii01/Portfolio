@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { motion } from 'framer-motion';
 import './Project.css';
 
 interface ProjectData {
@@ -13,20 +15,36 @@ interface ProjectProps {
 }
 
 export default function Project({ Data }: ProjectProps) {
+  const [hovered, setHovered] = useState<boolean>(false);
   return (
-    <div className="project_wrapper">
+    <motion.div
+      className="project_wrapper"
+      onHoverStart={() => {
+        setHovered(true);
+      }}
+      onHoverEnd={() => {
+        setHovered(false);
+      }}>
       <div className="project_header">
         <div className="project_header_blur">
           <div className="project_header_blur_blur"></div>
         </div>
-        <img
+        <motion.img
+          animate={{
+            y: hovered ? -10 : 0,
+          }}
+          transition={{ type: 'spring', damping: 15 }}
           className="project_header_image"
           src={`./projects/${Data.title}/${Data.coverImg}`}
         />
       </div>
       <div className="project_body">
         <div className="project_body_header">
-          <div className="project_body_logo">
+          <motion.div
+            className="project_body_logo"
+            animate={{
+              scale: hovered ? 0.95 : 1,
+            }}>
             {Data.icon ? (
               <img
                 className="project_body_logo_image"
@@ -35,17 +53,28 @@ export default function Project({ Data }: ProjectProps) {
             ) : (
               <p>R</p>
             )}
-          </div>
-          <h3>{Data.title || ''}</h3>
+          </motion.div>
+          <motion.h3
+            className="project_body_title"
+            animate={{
+              x: hovered ? 5 : 0,
+              color: hovered ? 'var(--text-heading)' : 'var(--text-code)',
+            }}>
+            {Data.title || ''}
+          </motion.h3>
         </div>
         <div className="project_body_badges">
           {Data.badges?.map((badge, index) => {
-            return <div key={index} className={`badge ${badge}`}>{badge}</div>;
+            return (
+              <div key={index} className={`badge ${badge}`}>
+                {badge}
+              </div>
+            );
           })}
         </div>
 
         <p className="project_body_description">{Data.description}</p>
       </div>
-    </div>
+    </motion.div>
   );
 }

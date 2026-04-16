@@ -80,37 +80,17 @@ function App() {
 
   return (
     <>
-      <Navbar/>
+      <Navbar />
       <br></br>
       <br></br>
       <div className="site-wrapper">
-        <CodeSandbox
-          Language='C++'
-          Header={'Includes'}
-          Code={Code}
-          HeaderColor={'rgba(142, 129, 68, 0.1)'}
-          MaxHeight={400}
-        />
-
-        <br></br>
-
-         <CodeSandbox
-          Language='HLSL'
-          Header={'Bayer matrix shader'}
-          Code={Bayer}
-          HeaderColor={'rgba(143, 129, 68, 0.1)'}
-          MaxHeight={400}
-        />
-
-        <br></br>
-
         <div
           style={{
             width: '100%',
             display: 'flex',
             flexDirection: 'row',
             flexWrap: 'wrap',
-            overflow:"hidden",
+            overflow: 'hidden',
             gap: '10px',
           }}>
           {projects.map((project) => {
@@ -120,11 +100,36 @@ function App() {
 
         <br></br>
 
-        <div style={{ width: '100%', maxWidth:"450px" }}>
+        <div style={{ width: '100%', maxWidth: '450px' }}>
           <ImageGallery Images={images} Header={'Images'} />
         </div>
-      </div>
 
+        <br></br>
+
+        <CodeSandbox
+          Language="C++"
+          Header={'Includes'}
+          Code={Code}
+          HeaderColor={'rgba(142, 129, 68, 0.1)'}
+          MaxHeight={400}
+        />
+
+        <br></br>
+
+        <CodeSandbox
+          Language="HLSL"
+          Header={'Bayer matrix shader'}
+          Code={Bayer}
+          HeaderColor={'rgba(143, 129, 68, 0.1)'}
+          MaxHeight={400}
+        />
+
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+      </div>
     </>
   );
 }

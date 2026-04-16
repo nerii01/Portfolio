@@ -1,4 +1,4 @@
-import React, {  useState } from 'react';
+import React, { useState } from 'react';
 import ComponentWrapper, {
   type ComponentWrapperProps,
 } from '../ComponentWrapper/ComponentWrapper';
@@ -87,6 +87,7 @@ export function ImageGalleryImages({
             }}
             transition={{ type: 'spring', stiffness: 200, damping: 20 }}>
             <motion.img
+              whileDrag={{ scale: 0.95 }}
               drag="x"
               dragConstraints={{ left: 0, right: 0 }}
               onDragEnd={(_, info) => {

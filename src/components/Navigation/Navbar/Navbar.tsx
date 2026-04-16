@@ -3,17 +3,25 @@ import './Navpanel.css';
 import { useState } from 'react';
 import { FileUser, FolderOpen, Home, Info } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useScreenWidth } from '../../../hooks/useScreenWidth';
 
 export default function Navbar() {
+  const width = useScreenWidth();
   return (
-    <div className="navbar_wrapper">
-      <div className="navbar_left">
-        <p>nerii'</p>
+    <>
+      <div className="navbar_wrapper">
+        <div className="navbar_left">
+          <p>nerii'</p>
+        </div>
+        <div className="navbar_right">{!(width <= 700) && <Navpanel />}</div>
       </div>
-      <div className="navbar_right">
-        <Navpanel />
-      </div>
-    </div>
+
+      {width <= 700 && (
+        <div className="navpanel_wrapper_mobile">
+          <Navpanel />
+        </div>
+      )}
+    </>
   );
 }
 
@@ -24,7 +32,7 @@ export function Navpanel() {
     { label: 'blog', icon: <Info /> },
     { label: 'resume', icon: <FileUser /> },
   ];
-  const [selectedTab, setSelectedTab] = useState<string>();
+  const [selectedTab, setSelectedTab] = useState<string>('home');
 
   return (
     <div className="navpanel_wrapper">
@@ -42,7 +50,10 @@ export function Navpanel() {
             <motion.p
               style={{ overflow: 'hidden' }}
               initial={{ width: 0 }}
-              animate={{ width: selected ? 'auto' : 0, skewX: selected ? "0deg" : "-20deg" }}
+              animate={{
+                width: selected ? 'auto' : 0,
+                skewX: selected ? '0deg' : '-20deg',
+              }}
               transition={{ ease: 'circOut' }}>
               {tab.label}
             </motion.p>
