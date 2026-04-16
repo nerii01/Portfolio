@@ -68,22 +68,15 @@
 }
 
 .navpanel_wrapper_mobile {
-  width: fit-content;
+  width: 100%;
+  left: 0;
   padding: 5px 10px;
   box-sizing: border-box;
-  font-weight: 100;
-  text-transform: uppercase;
-  font-size: 20px;
-  border-radius: 20px;
 
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 10px;
-  color: var(--text-code);
-  transition: 0.25s ease;
-  cursor: pointer;
 
   bottom: 10px;
   position: fixed;
@@ -93,7 +86,6 @@
 .navpanel_wrapper_mobile .navpanel_wrapper {
   z-index: 10;
   width: fit-content;
-
   display: flex;
   flex-direction: row;
   gap: 10px;

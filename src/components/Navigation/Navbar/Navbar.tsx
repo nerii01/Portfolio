@@ -1,15 +1,23 @@
 import './Navbar.css';
 import './Navpanel.css';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FileUser, FolderOpen, Home, Info } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useScreenWidth } from '../../../hooks/useScreenWidth';
 
 export default function Navbar() {
   const width = useScreenWidth();
+  const navbarRef = useRef<HTMLDivElement>(null);
+  const [navHeigh, setNavHeight] = useState<string>('');
+
+  useEffect(() => {
+    if (!navbarRef.current) return;
+    setNavHeight(`${navbarRef.current.offsetHeight}px`);
+  }, []);
+
   return (
     <>
-      <div className="navbar_wrapper">
+      <div ref={navbarRef} className="navbar_wrapper">
         <div className="navbar_left">
           <p>nerii'</p>
         </div>
@@ -21,6 +29,8 @@ export default function Navbar() {
           <Navpanel />
         </div>
       )}
+
+      <div style={{height: navHeigh}}></div>
     </>
   );
 }

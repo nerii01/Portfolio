@@ -80,10 +80,8 @@ function App() {
 
   return (
     <>
-      <Navbar />
-      <br></br>
-      <br></br>
       <div className="site-wrapper">
+        <Navbar />
         <div
           style={{
             width: '100%',
