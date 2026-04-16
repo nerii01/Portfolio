@@ -4,6 +4,7 @@ import Bayer from './assets/codes/BayerMatrix.hlsl?raw';
 import ImageGallery from './components/ImageGallery/ImageGallery';
 import Project from './components/Project/Project';
 import Navbar from './components/Navigation/Navbar/Navbar';
+import Collage from './components/Layout/Collage/Collage';
 
 function App() {
   const images = [
@@ -101,6 +102,27 @@ function App() {
         <div style={{ width: '100%', maxWidth: '450px' }}>
           <ImageGallery Images={images} Header={'Images'} />
         </div>
+
+        <br></br>
+
+        <Collage
+          Left={
+            <>
+              <div style={{ width: '100%', maxWidth: '450px' }}>
+                <ImageGallery Images={images.slice(1,2)} Header={'Bayer shader'} />
+              </div>
+            </>
+          }
+          Right={
+            <>
+              <CodeSandbox
+                Language="HLSL"
+                Code={Bayer}
+                MaxHeight={400}
+              />
+            </>
+          }
+        />
 
         <br></br>
 
