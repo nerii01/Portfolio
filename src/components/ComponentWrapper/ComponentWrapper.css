@@ -1,0 +1,42 @@
+.component-wrapper {
+  background-color: var(--bg-surface-card);
+
+  width: 100%;
+  border: var(--border) 1px solid;
+  box-shadow: var(--shadow-md);
+  border-radius: var(--border-rad);
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.component-wrapper_header {
+  --component-header-color: rgba(91, 94, 74, 0.466);
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 24px;
+
+  box-sizing: border-box;
+  border-bottom: 1px var(--border) solid;
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(2px);
+  background: linear-gradient(
+    45deg,
+    var(--bg-card) 5%,
+    var(--component-header-color)
+  );
+
+  top: 0px;
+  position: absolute;
+  width: 100%;
+  padding: 10px;
+}
+
+.component-wrapper_body {
+  min-height: 50px;
+  display: flex;
+  flex-direction: column;
+  font-size: 16px;
+  background-color: var(--bg-card);
+}

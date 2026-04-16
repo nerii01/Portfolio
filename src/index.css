@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap');
 
 :root {
   /* ─── Backgrounds ─────────────────────────── */
@@ -32,15 +32,43 @@
   --shadow-lg: 0 8px 48px rgba(0, 0, 0, 0.6);
 
   /* ─── Typography ─────────────────────────── */
-  --font-heading: "Cormorant Garamond", Georgia, serif;
-  --font-body: "Inter", system-ui, -apple-system, sans-serif;
-  --font-mono: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+  --font-heading: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
 
   /* ─── Spacing ────────────────────────────── */
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
   --radius-xl: 16px;
+
+  /* ─── Buttons ────────────────────────────── */
+  --btn-primary-bg: var(--gold-dim);
+  --btn-primary-bg-hover: rgba(201, 164, 60, 0.18);
+  --btn-primary-border: var(--gold-border);
+  --btn-primary-border-hover: var(--gold);
+  --btn-primary-text: var(--gold);
+  --btn-primary-text-hover: var(--gold-hover);
+
+  --btn-ghost-bg: transparent;
+  --btn-ghost-bg-hover: var(--bg-hover);
+  --btn-ghost-border: var(--border);
+  --btn-ghost-border-hover: var(--border-hover);
+  --btn-ghost-text: var(--text-muted);
+  --btn-ghost-text-hover: var(--text);
+
+  --btn-danger-bg: rgba(180, 40, 40, 0.12);
+  --btn-danger-bg-hover: rgba(180, 40, 40, 0.22);
+  --btn-danger-border: rgba(180, 40, 40, 0.25);
+  --btn-danger-border-hover: rgba(220, 60, 60, 0.5);
+  --btn-danger-text: #e07070;
+  --btn-danger-text-hover: #f08080;
+
+  --btn-padding-sm: 4px 12px;
+  --btn-padding-md: 7px 18px;
+  --btn-padding-lg: 10px 24px;
+  --btn-font-size: 0.875rem;
+  --btn-radius: var(--radius-md);
 }
 
 /* ─── Base reset ─────────────────────────────────── */
@@ -66,4 +94,152 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body,
+#root {
+  min-height: 100dvh;
+  width: 100%;
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+}
+
+.site-wrapper {
+  width: 100%;
+  max-width: 1000px;
+  background-color: rgb(22, 22, 22);
+  min-height: 100%;
+  box-shadow: var(--shadow-md);
+  margin: 20px;
+  padding: 20px;
+  flex-shrink: 0;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gold-dim);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--gold-dim) var(--bg-surface);
+}
+
+/*  ----------------------------------- BADGES */
+
+.badge {
+  flex-shrink: 0;
+  font-size: 14px;
+  color: var(--text);
+  background: linear-gradient(45deg, var(--bg), var(--bg));
+  padding: 5px 10px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: 1px rgba(255, 255, 255, 0.205) solid;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.badge.C\+\+ {
+  background: linear-gradient(45deg, var(--bg), #004482);
+  color: #e4e4e4;
+}
+
+.badge.Windows {
+  background: linear-gradient(45deg, var(--bg), #003d6b);
+  color: #ececec;
+}
+
+.badge.Unreal.Engine {
+  background: linear-gradient(45deg, var(--bg), #222a30);
+  color: #c8c8c8;
+}
+
+.badge.CLI {
+  background: linear-gradient(45deg, var(--bg), #0d1117);
+  color: #58d65a;
+}
+
+.badge.In.Development {
+  background: linear-gradient(45deg, var(--bg), #2d1b4e);
+  color: #b388ff;
+}
+
+.badge.React {
+  background: linear-gradient(45deg, var(--bg), #0d2137);
+  color: #61dafb;
+}
+
+.badge.HTML {
+  background: linear-gradient(45deg, var(--bg), #6b1e0a);
+  color: #ff8a65;
+}
+
+.badge.CSS {
+  background: linear-gradient(45deg, var(--bg), #0a2a4a);
+  color: #64b5f6;
+}
+
+.badge.JavaScript {
+  background: linear-gradient(45deg, var(--bg), #3d3200);
+  color: #ffe066;
+}
+
+.badge.TypeScript {
+  background: linear-gradient(45deg, var(--bg), #0d2645);
+  color: #6ba3e0;
+}
+
+.badge.Nodejs {
+  background: linear-gradient(45deg, var(--bg), #0a2010);
+  color: #6abf69;
+}
+
+.badge.OpenGL {
+  background: linear-gradient(45deg, var(--bg), #0d2030);
+  color: #7ecfff;
+}
+
+.badge.GLSL {
+  background: linear-gradient(45deg, var(--bg), #1e0a30);
+  color: #ce93d8;
+}
+
+.badge.HLSL {
+  background: linear-gradient(45deg, var(--bg), #171988);
+  color: #a2a8e4;
+}
+
+.badge.Steam {
+  background: linear-gradient(45deg, var(--bg), #101c2c);
+  color: #c7d5e0;
+}
+
+.badge.Multiplayer {
+  background: linear-gradient(45deg, var(--bg), #3d1d0a);
+  color: #e2956e;
+}
+
+.badge.Fullstack {
+  background: linear-gradient(45deg, var(--bg), #002922);
+  color: #4db6ac;
 }
