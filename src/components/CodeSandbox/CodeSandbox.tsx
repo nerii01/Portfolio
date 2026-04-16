@@ -94,7 +94,7 @@ export default function CodeSandbox({
     <ComponentWrapper
       {...wrapperProps}
       HeaderMargin={!wrapperProps.Header}
-      Header={<Header title={wrapperProps.Header} language={Language} /> || ''}>
+      Header={wrapperProps.Header && <Header title={wrapperProps.Header} language={Language} />}>
       <div className="code-sandbox_body">
         <div ref={linesRef} className="code-sandbox_body_lines">
           <div style={{ height: 'var(--header-height)', flexShrink: 0 }} />
