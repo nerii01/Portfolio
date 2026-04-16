@@ -1,10 +1,18 @@
 import './Project.css';
 
-interface ProjectProps {
-  Data: JSON;
+interface ProjectData {
+  title: string;
+  description?: string;
+  coverImg: string;
+  icon?: string;
+  badges?: string[];
 }
 
-export default function Project({ Data }) {
+interface ProjectProps {
+  Data: ProjectData;
+}
+
+export default function Project({ Data }: ProjectProps) {
   return (
     <div className="project_wrapper">
       <div className="project_header">
@@ -20,7 +28,10 @@ export default function Project({ Data }) {
         <div className="project_body_header">
           <div className="project_body_logo">
             {Data.icon ? (
-              <img className="project_body_logo_image" src={`./projects/${Data.title}/${Data.icon}`} />
+              <img
+                className="project_body_logo_image"
+                src={`./projects/${Data.title}/${Data.icon}`}
+              />
             ) : (
               <p>R</p>
             )}
@@ -28,8 +39,8 @@ export default function Project({ Data }) {
           <h3>{Data.title || ''}</h3>
         </div>
         <div className="project_body_badges">
-          {Data.badges.map((badge, index) => {
-            return <div className={`badge ${badge}`}>{badge}</div>;
+          {Data.badges?.map((badge, index) => {
+            return <div key={index} className={`badge ${badge}`}>{badge}</div>;
           })}
         </div>
 

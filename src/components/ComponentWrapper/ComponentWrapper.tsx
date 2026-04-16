@@ -3,7 +3,7 @@ import './ComponentWrapper.css';
 
 export interface ComponentWrapperProps {
   children?: React.ReactNode;
-  Header?: string;
+  Header?: React.ReactNode;
   HeaderColor?: string;
   HeaderMargin?: boolean;
   MaxHeight?: number;

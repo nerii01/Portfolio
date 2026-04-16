@@ -1,0 +1,26 @@
+.navbar_wrapper {
+  width: 100%;
+  position: fixed;
+  z-index: 10;
+
+  background-color: rgba(32, 30, 23, 0.8);
+  border-bottom: 1px var(--border) solid;
+  backdrop-filter: blur(5px);
+
+  box-sizing: border-box;
+  padding: 10px 20px;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.navbar_left p {
+  background: linear-gradient(45deg, rgb(252, 252, 252), rgb(255, 197, 72));
+  font-family: var(--font-heading);
+  font-weight: 1000;
+  color: transparent;
+  background-clip: text;
+  font-size: 32px;
+}

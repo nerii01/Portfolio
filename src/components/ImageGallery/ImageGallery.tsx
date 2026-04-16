@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, {  useState } from 'react';
 import ComponentWrapper, {
   type ComponentWrapperProps,
 } from '../ComponentWrapper/ComponentWrapper';
@@ -6,20 +6,26 @@ import './ImageGallery.css';
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
+interface GalleryImage {
+  image: string;
+  title?: string;
+  description?: string;
+}
+
 interface ImageGalleryProps extends ComponentWrapperProps {
-  Images: JSON[];
+  Images: GalleryImage[];
 }
 
 interface ImageGalleryImagesProps {
-  Images: JSON[];
+  Images: GalleryImage[];
   currentImage: number;
-  setCurrentImage: Function;
+  setCurrentImage: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function ImageGallery({
   Images,
   ...wrapperProps
-}): ImageGalleryProps {
+}: ImageGalleryProps) {
   const [currentImage, setCurrentImage] = useState(0);
 
   return (
@@ -48,18 +54,15 @@ export function ImageGalleryImages({
   currentImage,
   setCurrentImage,
 }: ImageGalleryImagesProps) {
-  function handleImageChange(Value) {
+  function handleImageChange(Value: number) {
     setCurrentImage((prev) => {
       let val = prev + Value;
-      if (val >= Images.length) {
-        val = 0;
-      }
-      if (val < 0) {
-        val = Images.length - 1;
-      }
+      if (val >= Images.length) val = 0;
+      if (val < 0) val = Images.length - 1;
       return val;
     });
   }
+
   return (
     <div className="image-gallery_body_images">
       {/* Button Left */}
@@ -77,6 +80,7 @@ export function ImageGalleryImages({
       {Images.map((img, index) => {
         return (
           <motion.div
+            key={index}
             className="image-gallery_image_wrapper"
             animate={{
               x: `calc(${-100 * currentImage}% - ${currentImage * 20}px)`,

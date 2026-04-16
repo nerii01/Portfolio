@@ -2,12 +2,6 @@ import Prism from 'prismjs';
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-c';
 import 'prismjs/components/prism-cpp';
-Prism.languages.insertBefore('cpp', 'keyword', {
-  namespace: {
-    pattern: /\bstd\b/,
-    alias: 'namespace',
-  },
-});
 
 import { useEffect, useMemo, useRef } from 'react';
 import ComponentWrapper, {
@@ -15,8 +9,16 @@ import ComponentWrapper, {
 } from '../ComponentWrapper/ComponentWrapper';
 import './CodeSandbox.css';
 
-// Prism helper
-function renderTokens(tokens: Prism.TokenStream): React.ReactNode {
+// Prism
+
+Prism.languages.insertBefore('cpp', 'keyword', {
+  namespace: {
+    pattern: /\bstd\b/,
+    alias: 'namespace',
+  },
+});
+
+function renderTokens(tokens: (string | Prism.Token)[]): React.ReactNode {
   return tokens.map((token, i) => {
     if (typeof token === 'string') {
       return <span key={i}>{token}</span>;
@@ -32,11 +34,17 @@ function renderTokens(tokens: Prism.TokenStream): React.ReactNode {
 
     return (
       <span key={i} className={`token ${token.type}`}>
-        {token.content}
+        {typeof token.content === 'string'
+          ? token.content
+          : Array.isArray(token.content)
+            ? renderTokens(token.content)
+            : renderTokens([token.content])}
       </span>
     );
   });
 }
+
+/////
 
 interface CodeSandboxProps extends ComponentWrapperProps {
   Code: string;
@@ -72,9 +80,15 @@ export default function CodeSandbox({
     return () => {
       codeEl.removeEventListener('scroll', handleScroll);
     };
-  }, [codeRef.current, linesRef.current]);
+  }, []);
 
-  const Header = ({ title, language }) => {
+  const Header = ({
+    title,
+    language,
+  }: {
+    title: React.ReactNode;
+    language?: string;
+  }) => {
     return (
       <div
         style={{
@@ -94,7 +108,11 @@ export default function CodeSandbox({
     <ComponentWrapper
       {...wrapperProps}
       HeaderMargin={!wrapperProps.Header}
-      Header={wrapperProps.Header && <Header title={wrapperProps.Header} language={Language} />}>
+      Header={
+        wrapperProps.Header && (
+          <Header title={wrapperProps.Header} language={Language} />
+        )
+      }>
       <div className="code-sandbox_body">
         <div ref={linesRef} className="code-sandbox_body_lines">
           <div style={{ height: 'var(--header-height)', flexShrink: 0 }} />

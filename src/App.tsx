@@ -1,10 +1,9 @@
 import CodeSandbox from './components/CodeSandbox/CodeSandbox';
 import Code from './assets/codes/UPlayer.cpp?raw';
 import Bayer from './assets/codes/BayerMatrix.hlsl?raw';
-import CompnentWrapper from './components/ComponentWrapper/ComponentWrapper';
 import ImageGallery from './components/ImageGallery/ImageGallery';
 import Project from './components/Project/Project';
-import Navbar from './components/Navigation/Navbar';
+import Navbar from './components/Navigation/Navbar/Navbar';
 
 function App() {
   const images = [
@@ -84,7 +83,6 @@ function App() {
       <Navbar/>
       <br></br>
       <br></br>
-      <br></br>
       <div className="site-wrapper">
         <CodeSandbox
           Language='C++'
@@ -112,19 +110,21 @@ function App() {
             display: 'flex',
             flexDirection: 'row',
             flexWrap: 'wrap',
+            overflow:"hidden",
             gap: '10px',
           }}>
-          {projects.map((project, index) => {
+          {projects.map((project) => {
             return <Project Data={project} />;
           })}
         </div>
 
         <br></br>
 
-        <div style={{ width: '450px' }}>
+        <div style={{ width: '100%', maxWidth:"450px" }}>
           <ImageGallery Images={images} Header={'Images'} />
         </div>
       </div>
+
     </>
   );
 }

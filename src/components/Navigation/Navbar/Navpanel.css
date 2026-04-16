@@ -1,0 +1,67 @@
+.navpanel_wrapper {
+  z-index: 10;
+  width: fit-content;
+
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  background-color: rgba(0, 0, 0, 0.35);
+  padding: 5px;
+  box-sizing: border-box;
+  border-radius: 20px;
+}
+
+.navpanel_tab {
+  width: fit-content;
+  padding: 5px 10px;
+  box-sizing: border-box;
+  font-weight: 100;
+  background-color: rgba(46, 46, 46, 0);
+  text-transform: uppercase;
+  font-size: 20px;
+  border-radius: 20px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-code);
+  transition: 0.25s ease;
+}
+
+.navpanel_tab.active {
+  padding: 5px 10px;
+  box-sizing: border-box;
+  font-weight: 600;
+  background: linear-gradient(45deg, var(--text), var(--gold));
+  color: transparent;
+  background-clip: text;
+  text-transform: uppercase;
+  font-size: 20px;
+  border-radius: 20px;
+  position: relative;
+  color: var(--text);
+}
+
+.navpanel_tab::before {
+  position: absolute;
+  content: '';
+  width: 0%;
+  height: 100%;
+  opacity: 0;
+  background-color: rgba(116, 95, 68, 0.699);
+  border-radius: 20px;
+  z-index: -1;
+}
+
+.navpanel_tab.active::before {
+  position: absolute;
+  content: '';
+  width: 100%;
+  opacity: 1;
+  height: 100%;
+  background-color: rgba(116, 95, 68, 0.699);
+  border-radius: 20px;
+  z-index: -1;
+}
