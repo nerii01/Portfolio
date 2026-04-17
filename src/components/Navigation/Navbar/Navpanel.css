@@ -29,6 +29,8 @@
   color: var(--text-code);
   transition: 0.25s ease;
   cursor: pointer;
+  transform: translateY(0px);
+  filter: brightness(1);
 }
 
 .navpanel_tab.active {
@@ -45,9 +47,20 @@
   color: var(--text);
 }
 
+.navpanel_tab:hover {
+  color: var(--text);
+  filter: brightness(1.25);
+  transform: translateY(1px);
+}
+
+.navpanel_tab.active:hover {
+  filter: brightness(1.25);
+  transform: translateY(1px);
+}
+
 .navpanel_tab::before {
   position: absolute;
-  content: '';
+  content: "";
   width: 0%;
   height: 100%;
   opacity: 0;
@@ -58,7 +71,7 @@
 
 .navpanel_tab.active::before {
   position: absolute;
-  content: '';
+  content: "";
   width: 100%;
   opacity: 1;
   height: 100%;
@@ -89,9 +102,11 @@
   display: flex;
   flex-direction: row;
   gap: 10px;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(29, 29, 29, 0.8);
   box-shadow: var(--shadow-md);
   backdrop-filter: blur(5px);
+  border: 1px var(--border) solid;
+
   padding: 5px;
   box-sizing: border-box;
   border-radius: 20px;

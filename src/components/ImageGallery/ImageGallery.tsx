@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import ComponentWrapper, {
   type ComponentWrapperProps,
-} from '../ComponentWrapper/ComponentWrapper';
-import './ImageGallery.css';
-import { motion } from 'framer-motion';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+} from "../ComponentWrapper/ComponentWrapper";
+import "./ImageGallery.css";
+import { motion } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface GalleryImage {
   image: string;
@@ -37,7 +37,7 @@ export default function ImageGallery({
           setCurrentImage={setCurrentImage}
         />
         <div className="image-gallery_body_title">
-          <h3>{Images[currentImage].title || ''}</h3>
+          <h3>{Images[currentImage].title || ""}</h3>
         </div>
         {Images[currentImage].description && (
           <div className="image-gallery_body_description">
@@ -72,21 +72,23 @@ export function ImageGalleryImages({
         className="image-gallery_body_images_button left"
         onClick={() => {
           handleImageChange(-1);
-        }}>
+        }}
+      >
         <ChevronLeft />
       </motion.button>
 
       {/* Images */}
-      <div className='image-gallery_images_wrapper'>
+      <div className="image-gallery_images_wrapper">
         {Images.map((img, index) => {
           return (
             <motion.div
               key={index}
               className="image-gallery_image_wrapper"
               animate={{
-                x: `calc(${-100 * currentImage}%)`,
+                x: `calc(${-100 * currentImage}% - ${currentImage * 100}px)`,
               }}
-              transition={{ type: 'spring', stiffness: 200, damping: 20 }}>
+              transition={{ type: "spring", stiffness: 400, damping: 32 }}
+            >
               <motion.img
                 whileDrag={{ scale: 0.95 }}
                 drag="x"
@@ -108,7 +110,7 @@ export function ImageGalleryImages({
 
       <motion.div className="image-gallery_image_circles">
         {currentImage + 1}
-        {' / '}
+        {" / "}
         {Images.length}
       </motion.div>
 
@@ -119,7 +121,8 @@ export function ImageGalleryImages({
         className="image-gallery_body_images_button right"
         onClick={() => {
           handleImageChange(1);
-        }}>
+        }}
+      >
         <ChevronRight />
       </motion.button>
     </div>

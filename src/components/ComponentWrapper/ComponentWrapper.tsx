@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import './ComponentWrapper.css';
+import { useEffect, useRef, useState } from "react";
+import "./ComponentWrapper.css";
 
 export interface ComponentWrapperProps {
   children?: React.ReactNode;
@@ -7,6 +7,7 @@ export interface ComponentWrapperProps {
   HeaderColor?: string;
   HeaderMargin?: boolean;
   MaxHeight?: number;
+  MaxWidth?: number | string;
 }
 
 export default function ComponentWrapper({
@@ -15,10 +16,11 @@ export default function ComponentWrapper({
   HeaderColor,
   HeaderMargin = true,
   MaxHeight,
+  MaxWidth,
 }: ComponentWrapperProps) {
   // Add header margin
   const headerRef = useRef<HTMLDivElement>(null);
-  const [headerSize, setHeaderSize] = useState<string>('0px');
+  const [headerSize, setHeaderSize] = useState<string>("0px");
   useEffect(() => {
     const update = () => {
       if (!headerRef.current) return;
@@ -33,13 +35,20 @@ export default function ComponentWrapper({
   return (
     <div
       className="component-wrapper"
-      style={{ ['--header-height' as string]: headerSize, maxHeight: MaxHeight, overflow:"hidden"}}>
+      style={{
+        ["--header-height" as string]: headerSize,
+        maxHeight: MaxHeight,
+        maxWidth: MaxWidth,
+        overflow: "hidden",
+      }}
+    >
       {/* Header */}
       {Header && (
         <div
           ref={headerRef}
-          style={{ ['--component-header-color' as string]: HeaderColor }}
-          className="component-wrapper_header">
+          style={{ ["--component-header-color" as string]: HeaderColor }}
+          className="component-wrapper_header"
+        >
           {Header}
         </div>
       )}
@@ -50,7 +59,7 @@ export default function ComponentWrapper({
       {/* Body */}
       <div className="component-wrapper_body">
         {HeaderMargin && (
-          <div style={{ height: 'var(--header-height)', flexShrink: 0 }} />
+          <div style={{ height: "var(--header-height)", flexShrink: 0 }} />
         )}
         {children}
       </div>
