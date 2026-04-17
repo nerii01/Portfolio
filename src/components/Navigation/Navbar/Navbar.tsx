@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { useScreenWidth } from "../../../hooks/useScreenWidth";
 
 export default function Navbar() {
-  const { width, isMobile } = useScreenWidth();
+  const { isMobile } = useScreenWidth();
   const navbarRef = useRef<HTMLDivElement>(null);
   const [navHeigh, setNavHeight] = useState<string>("");
 

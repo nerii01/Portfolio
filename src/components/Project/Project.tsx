@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { hover, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import "./Project.css";
-import { ArrowUpRight, CornerUpRight, SquareArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 interface ProjectData {
   title: string;
@@ -87,7 +87,7 @@ export default function Project({ Data }: ProjectProps) {
                   type: "spring",
                   stiffness: 700,
                   damping: 20,
-                  delay: (index+1) * 0.1,
+                  delay: (index + 1) * 0.1,
                 }}
                 viewport={{ once: true }}
               >
