@@ -51,7 +51,7 @@ export default function Project({ Data }: ProjectProps) {
                 src={`./projects/${Data.title}/${Data.icon}`}
               />
             ) : (
-              <p>R</p>
+              <p>{Data.title.slice(0,1)}</p>
             )}
           </motion.div>
           <motion.h3

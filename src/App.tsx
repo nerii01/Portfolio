@@ -56,7 +56,7 @@ function App() {
       badges: ['C++', 'Windows', 'CLI', 'In Development'],
     },
     {
-      icon: 'Idea Manager.png',
+      icon: '',
       coverImg: 'idea_manager.png',
       title: 'Idea Manager',
       description:
@@ -89,7 +89,6 @@ function App() {
             display: 'flex',
             flexDirection: 'row',
             flexWrap: 'wrap',
-            overflow: 'hidden',
             gap: '10px',
           }}>
           {projects.map((project) => {

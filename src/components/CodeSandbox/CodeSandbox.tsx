@@ -2,6 +2,12 @@ import Prism from 'prismjs';
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-c';
 import 'prismjs/components/prism-cpp';
+import 'prismjs/components/prism-hlsl';
+import 'prismjs/components/prism-glsl';
+import 'prismjs/components/prism-javascript';
+import 'prismjs/components/prism-typescript';
+import 'prismjs/components/prism-markup';
+
 
 import { useEffect, useMemo, useRef } from 'react';
 import ComponentWrapper, {
@@ -56,11 +62,33 @@ export default function CodeSandbox({
   Language,
   ...wrapperProps
 }: CodeSandboxProps) {
+
   // Tokenize code
+  const languageMap: Record<string, string> = {
+    'c++': 'cpp',
+    cpp: 'cpp',
+    c: 'c',
+    js: 'javascript',
+    ts: 'typescript',
+    html: 'markup',
+    xml: 'markup',
+    hlsl: 'hlsl',
+  };
   const tokens = useMemo(() => {
     if (!Code) return [];
-    return Prism.tokenize(Code, Prism.languages.cpp);
-  }, [Code]);
+
+    const langKey = Language?.toLowerCase() || 'cpp';
+    const prismLang = languageMap[langKey] || langKey;
+
+    const grammar = Prism.languages[prismLang];
+
+    if (!grammar) {
+      console.warn(`Prism: language "${prismLang}" not found`);
+      return [Code];
+    }
+
+    return Prism.tokenize(Code, grammar);
+  }, [Code, Language]);
 
   // Synchronize line and body scroll
   const linesRef = useRef<HTMLDivElement>(null);
@@ -102,6 +130,7 @@ export default function CodeSandbox({
       </div>
     );
   };
+
   // Code Sandbox
   return (
     // Wrapper
