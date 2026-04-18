@@ -3,10 +3,10 @@ import "./Navpanel.css";
 import { useEffect, useRef, useState } from "react";
 import { FileUser, FolderOpen, Home, Info } from "lucide-react";
 import { motion } from "framer-motion";
-import { useScreenWidth } from "../../../hooks/useScreenWidth";
+import { useScreenSize } from "../../../hooks/useScreenSize";
 
 export default function Navbar() {
-  const { isMobile } = useScreenWidth();
+  const { isMobile } = useScreenSize();
   const navbarRef = useRef<HTMLDivElement>(null);
   const [navHeigh, setNavHeight] = useState<string>("");
 

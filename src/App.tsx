@@ -5,7 +5,7 @@ import ImageGallery from "./components/ImageGallery/ImageGallery";
 import Project from "./components/Project/Project";
 import Navbar from "./components/Navigation/Navbar/Navbar";
 import Collage from "./components/Layout/Collage/Collage";
-import { useScreenWidth } from "./hooks/useScreenWidth";
+import { useScreenSize } from "./hooks/useScreenSize";
 import ImageViewer from "./components/ImageViewer/ImageViewer";
 
 function App() {
@@ -97,7 +97,7 @@ function App() {
     },
   ];
 
-  const { isMobile } = useScreenWidth();
+  const { isMobile } = useScreenSize();
 
   return (
     <>
