@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useImageViewer } from "../../hooks/useImageViewer";
 import "./ImageViewer.css";
 import { useScreenSize } from "../../hooks/useScreenSize";
-import { motion, AnimatePresence, scaleCorrectors } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
