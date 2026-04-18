@@ -89,6 +89,7 @@
   will-change: transform, x;
 }
 
+
 .image-gallery_image {
   box-sizing: border-box;
   flex-shrink: 1;

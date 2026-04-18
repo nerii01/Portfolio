@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import ComponentWrapper, {
   type ComponentWrapperProps,
 } from "../ComponentWrapper/ComponentWrapper";
 import "./ImageGallery.css";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useImageViewer } from "../../hooks/useImageViewer";
 
 interface GalleryImage {
   image: string;
@@ -63,6 +64,9 @@ export function ImageGalleryImages({
     });
   }
 
+  const isDragging = useRef(false);
+  const { setImage } = useImageViewer();
+
   return (
     <div className="image-gallery_body_images">
       {/* Button Left */}
@@ -90,11 +94,19 @@ export function ImageGalleryImages({
               transition={{ type: "spring", stiffness: 400, damping: 32 }}
             >
               <motion.img
+                onMouseUp={() => {
+                  if (!isDragging.current) {
+                    setImage(`./images/${img.image}`);
+                  }
+                  isDragging.current = false;
+                }}
                 whileDrag={{ scale: 0.95 }}
                 drag="x"
                 dragConstraints={{ left: 0, right: 0 }}
+                onDragStart={() => {
+                  isDragging.current = true;
+                }}
                 onDragEnd={(_, info) => {
-                  console.log(info);
                   const diff = -info.offset.x;
                   if (diff > 50) handleImageChange(1);
                   else if (diff < -50) handleImageChange(-1);

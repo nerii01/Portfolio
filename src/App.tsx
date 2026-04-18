@@ -6,6 +6,7 @@ import Project from "./components/Project/Project";
 import Navbar from "./components/Navigation/Navbar/Navbar";
 import Collage from "./components/Layout/Collage/Collage";
 import { useScreenWidth } from "./hooks/useScreenWidth";
+import ImageViewer from "./components/ImageViewer/ImageViewer";
 
 function App() {
   const images = [
@@ -100,6 +101,7 @@ function App() {
 
   return (
     <>
+      <ImageViewer />
       <div className="site-wrapper">
         <Navbar />
         <div
