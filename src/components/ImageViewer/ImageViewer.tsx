@@ -18,29 +18,32 @@ export default function ImageViewer() {
       setScale((s) => Math.min(Math.max(s - e.deltaY * 0.001, 1), 10));
     };
 
+    const onTouch = (e: TouchEvent) => {
+      e.preventDefault();
+      console.log(e);
+
+      if (e.touches.length !== 2) return;
+      e.preventDefault();
+
+      const dx = e.touches[0].clientX - e.touches[1].clientX;
+      const dy = e.touches[0].clientY - e.touches[1].clientY;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (lastDistance.current !== null) {
+        const delta = distance - lastDistance.current;
+        setScale((s) => Math.min(Math.max(s + delta * 0.01, 1), 10));
+      }
+
+      lastDistance.current = distance;
+    };
+
     el.addEventListener("wheel", onWheel, { passive: false });
-    return () => el.removeEventListener("wheel", onWheel);
-  }, [image]); // 
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (e.touches.length !== 2) return;
-    e.preventDefault();
-
-    const dx = e.touches[0].clientX - e.touches[1].clientX;
-    const dy = e.touches[0].clientY - e.touches[1].clientY;
-    const distance = Math.sqrt(dx * dx + dy * dy);
-
-    if (lastDistance.current !== null) {
-      const delta = distance - lastDistance.current;
-      setScale((s) => Math.min(Math.max(s + delta * 0.01, 1), 10));
-    }
-
-    lastDistance.current = distance;
-  };
-
-  const handleTouchEnd = () => {
-    lastDistance.current = null;
-  };
+    el.addEventListener("touchmove", onTouch, { passive: false });
+    return () => {
+      el.removeEventListener("wheel", onWheel);
+      el.removeEventListener("touchmove", onTouch);
+    };
+  }, [image]);
 
   return (
     image != "" && (
@@ -52,8 +55,6 @@ export default function ImageViewer() {
         <div
           className="image-viewer_images_wrapper"
           onClick={(e) => e.stopPropagation()}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
         >
           <div className="image-viewer_image_wrapper">
             <img
