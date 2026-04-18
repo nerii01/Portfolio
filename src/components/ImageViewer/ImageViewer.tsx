@@ -119,7 +119,7 @@ export default function ImageViewer() {
       }
     };
 
-    const onTouchEnd = (e: TouchEvent) => {
+    const onTouchEnd = () => {
       lastDistance.current = null;
       lastTouchCenter.current = null;
 
