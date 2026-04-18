@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useImageViewer } from "../../hooks/useImageViewer";
 import "./ImageViewer.css";
 import { useScreenSize } from "../../hooks/useScreenSize";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, scaleCorrectors } from "framer-motion";
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
@@ -36,27 +36,20 @@ export default function ImageViewer() {
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
 
-      // Scroll down
       if (e.deltaY <= 0) {
-        // Offset + scale
-        setOffsetX(
-          (prev) =>
-            prev +
-            (-(e.clientX - screenCenter.x) / screenCenter.x) *
-              50 *
-              (1 / scaleRef.current),
-        );
-        setOffsetY(
-          (prev) =>
-            prev +
-            (-(e.clientY - screenCenter.y) / screenCenter.y) *
-              50 *
-              (1 / scaleRef.current),
-        );
-        setScale((s) => Math.min(Math.max(s - e.deltaY * 0.001, 1), maxScale));
-      } else // Scroll Up
-      {
-        // Smooth lerp back
+        const delta = -e.deltaY * 0.001;
+        const newScale = Math.min(scaleRef.current + delta, maxScale);
+        const scaleChange = newScale / scaleRef.current;
+
+        // Pozycja kursora względem środka ekranu
+        const mouseX = e.clientX - screenCenter.x;
+        const mouseY = e.clientY - screenCenter.y;
+
+        // Offset musi się przesunąć tak żeby punkt pod kursorem został w miejscu
+        setOffsetX((prev) => mouseX - scaleChange * (mouseX - prev));
+        setOffsetY((prev) => mouseY - scaleChange * (mouseY - prev));
+        setScale(newScale);
+      } else {
         setScale((prev) => lerp(prev, 1, 0.5));
         setOffsetX((prev) => lerp(prev, 0, 0.5));
         setOffsetY((prev) => lerp(prev, 0, 0.5));
@@ -67,7 +60,7 @@ export default function ImageViewer() {
     const onTouch = (e: TouchEvent) => {
       e.preventDefault();
 
-      // Przesuwanie jednym palcem
+      // Move
       if (lastTouchCenter.current !== null) {
         const dx = e.touches[0].clientX - lastTouchCenter.current.x;
         const dy = e.touches[0].clientY - lastTouchCenter.current.y;
@@ -80,7 +73,7 @@ export default function ImageViewer() {
       };
       lastDistance.current = null;
 
-      // Zoom double finger
+      // Zoom
       const dx = e.touches[0].clientX - e.touches[1].clientX;
       const dy = e.touches[0].clientY - e.touches[1].clientY;
       const distance = Math.sqrt(dx * dx + dy * dy);
@@ -120,12 +113,6 @@ export default function ImageViewer() {
     const onTouchEnd = () => {
       lastDistance.current = null;
       lastTouchCenter.current = null;
-
-      if (scaleRef.current < 1.1) {
-        setScale(1);
-        setOffsetX((prev) => lerp(prev, 0, 0.5));
-        setOffsetY((prev) => lerp(prev, 0, 0.5));
-      }
     };
 
     // Listeners
@@ -166,6 +153,7 @@ export default function ImageViewer() {
                   src={image}
                   style={{
                     transform: `scale(${scale}) translate(${offsetX}px, ${offsetY}px)`,
+                    transition: "0.1s ease-out",
                   }}
                 />
               </div>
