@@ -36,20 +36,27 @@ export default function ImageViewer() {
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
 
+      // Scroll down
       if (e.deltaY <= 0) {
-        const delta = -e.deltaY * 0.001;
-        const newScale = Math.min(scaleRef.current + delta, maxScale);
-        const scaleChange = newScale / scaleRef.current;
-
-        // Pozycja kursora względem środka ekranu
-        const mouseX = e.clientX - screenCenter.x;
-        const mouseY = e.clientY - screenCenter.y;
-
-        // Offset musi się przesunąć tak żeby punkt pod kursorem został w miejscu
-        setOffsetX((prev) => mouseX - scaleChange * (mouseX - prev));
-        setOffsetY((prev) => mouseY - scaleChange * (mouseY - prev));
-        setScale(newScale);
-      } else {
+        // Offset + scale
+        setOffsetX(
+          (prev) =>
+            prev +
+            (-(e.clientX - screenCenter.x) / screenCenter.x) *
+              100 *
+              (1 / scaleRef.current),
+        );
+        setOffsetY(
+          (prev) =>
+            prev +
+            (-(e.clientY - screenCenter.y) / screenCenter.y) *
+              100 *
+              (1 / scaleRef.current),
+        );
+        setScale((s) => Math.min(Math.max(s - e.deltaY * 0.001, 1), maxScale));
+      } else // Scroll Up
+      {
+        // Smooth lerp back
         setScale((prev) => lerp(prev, 1, 0.5));
         setOffsetX((prev) => lerp(prev, 0, 0.5));
         setOffsetY((prev) => lerp(prev, 0, 0.5));
@@ -74,36 +81,38 @@ export default function ImageViewer() {
       lastDistance.current = null;
 
       // Zoom
-      const dx = e.touches[0].clientX - e.touches[1].clientX;
-      const dy = e.touches[0].clientY - e.touches[1].clientY;
-      const distance = Math.sqrt(dx * dx + dy * dy);
+      if (e.touches.length == 2) {
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
 
-      const touchCenter = {
-        x: (e.touches[0].clientX + e.touches[1].clientX) / 2,
-        y: (e.touches[0].clientY + e.touches[1].clientY) / 2,
-      };
+        const touchCenter = {
+          x: (e.touches[0].clientX + e.touches[1].clientX) / 2,
+          y: (e.touches[0].clientY + e.touches[1].clientY) / 2,
+        };
 
-      if (lastDistance.current !== null) {
-        const delta = distance - lastDistance.current;
-        setScale((s) => Math.min(Math.max(s + delta * 0.01, 1), maxScale));
+        if (lastDistance.current !== null) {
+          const delta = distance - lastDistance.current;
+          setScale((s) => Math.min(Math.max(s + delta * 0.01, 1), maxScale));
 
-        // Offset
-        setOffsetX(
-          (prev) =>
-            prev +
-            (-(touchCenter.x - screenCenter.x) / screenCenter.x) *
-              delta *
-              0.3 *
-              (1 / scaleRef.current),
-        );
-        setOffsetY(
-          (prev) =>
-            prev +
-            (-(touchCenter.y - screenCenter.y) / screenCenter.y) *
-              delta *
-              0.3 *
-              (1 / scaleRef.current),
-        );
+          // Offset
+          setOffsetX(
+            (prev) =>
+              prev +
+              (-(touchCenter.x - screenCenter.x) / screenCenter.x) *
+                delta *
+                0.3 *
+                (1 / scaleRef.current),
+          );
+          setOffsetY(
+            (prev) =>
+              prev +
+              (-(touchCenter.y - screenCenter.y) / screenCenter.y) *
+                delta *
+                0.3 *
+                (1 / scaleRef.current),
+          );
+        }
 
         lastDistance.current = distance;
         lastTouchCenter.current = null;
@@ -136,7 +145,6 @@ export default function ImageViewer() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            ref={wrapperRef}
             className="image-viewer_wrapper"
             onClick={() => setImage("")}
           >
@@ -146,6 +154,7 @@ export default function ImageViewer() {
               exit={{ y: 20 }}
               className="image-viewer_images_wrapper"
               onClick={(e) => e.stopPropagation()}
+              ref={wrapperRef}
             >
               <div className="image-viewer_image_wrapper">
                 <img
