@@ -156,22 +156,26 @@ export default function ImageViewer() {
               onClick={(e) => e.stopPropagation()}
               ref={wrapperRef}
             >
-              <div className="image-viewer_image_wrapper">
-                <img
-                  className="image-viewer_image"
-                  src={image}
-                  style={{
-                    transform: `scale(${scale}) translate(${offsetX}px, ${offsetY}px)`,
-                    transition: "0.1s ease-out",
-                  }}
-                />
+              <div className="image-viewer-header">
+                <button
+                  className="image-viewer_close_button"
+                  onClick={() => setImage("")}
+                >
+                  <X />
+                </button>
               </div>
-              <button
-                className="image-viewer_close_button"
-                onClick={() => setImage("")}
-              >
-                <X />
-              </button>
+              <div className="image-viewer_image_wrapper">
+                <div className="image-viewer_image_container">
+                  <img
+                    className="image-viewer_image"
+                    src={image}
+                    style={{
+                      transform: `scale(${scale}) translate(${offsetX}px, ${offsetY}px)`,
+                      transition: "0.1s ease-out",
+                    }}
+                  />
+                </div>
+              </div>
             </motion.div>
           </motion.div>
         )}
