@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useImageViewer } from "../../hooks/useImageViewer";
 import "./ImageViewer.css";
 import { useScreenSize } from "../../hooks/useScreenSize";
+import { motion, AnimatePresence } from "framer-motion";
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
@@ -67,20 +68,17 @@ export default function ImageViewer() {
       e.preventDefault();
 
       // Przesuwanie jednym palcem
-      if (e.touches.length === 1) {
-        if (lastTouchCenter.current !== null) {
-          const dx = e.touches[0].clientX - lastTouchCenter.current.x;
-          const dy = e.touches[0].clientY - lastTouchCenter.current.y;
-          setOffsetX((prev) => prev + dx * (1 / scaleRef.current));
-          setOffsetY((prev) => prev + dy * (1 / scaleRef.current));
-        }
-        lastTouchCenter.current = {
-          x: e.touches[0].clientX,
-          y: e.touches[0].clientY,
-        };
-        lastDistance.current = null;
-        return;
+      if (lastTouchCenter.current !== null) {
+        const dx = e.touches[0].clientX - lastTouchCenter.current.x;
+        const dy = e.touches[0].clientY - lastTouchCenter.current.y;
+        setOffsetX((prev) => prev + dx * (1 / scaleRef.current));
+        setOffsetY((prev) => prev + dy * (1 / scaleRef.current));
       }
+      lastTouchCenter.current = {
+        x: e.touches[0].clientX,
+        y: e.touches[0].clientY,
+      };
+      lastDistance.current = null;
 
       // Zoom double finger
       const dx = e.touches[0].clientX - e.touches[1].clientX;
@@ -144,33 +142,43 @@ export default function ImageViewer() {
   }, [image]);
 
   return (
-    image != "" && (
-      <div
-        ref={wrapperRef}
-        className="image-viewer_wrapper"
-        onClick={() => setImage("")}
-      >
-        <div
-          className="image-viewer_images_wrapper"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div className="image-viewer_image_wrapper">
-            <img
-              className="image-viewer_image"
-              src={image}
-              style={{
-                transform: `scale(${scale}) translate(${offsetX}px, ${offsetY}px)`,
-              }}
-            />
-          </div>
-          <button
-            className="image-viewer_close_button"
+    <>
+      <AnimatePresence mode="wait">
+        {image != "" && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            ref={wrapperRef}
+            className="image-viewer_wrapper"
             onClick={() => setImage("")}
           >
-            <X />
-          </button>
-        </div>
-      </div>
-    )
+            <motion.div
+              initial={{ y: -20 }}
+              animate={{ y: 0 }}
+              exit={{ y: 20 }}
+              className="image-viewer_images_wrapper"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="image-viewer_image_wrapper">
+                <img
+                  className="image-viewer_image"
+                  src={image}
+                  style={{
+                    transform: `scale(${scale}) translate(${offsetX}px, ${offsetY}px)`,
+                  }}
+                />
+              </div>
+              <button
+                className="image-viewer_close_button"
+                onClick={() => setImage("")}
+              >
+                <X />
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
