@@ -4,6 +4,10 @@ export function useScreenSize() {
   const [width, setWidth] = useState<number>(window.innerWidth);
   const [height, setHeight] = useState<number>(window.innerHeight);
   const [isMobile, setIsMobile] = useState<boolean>(false);
+  const screenCenter: { x: number; y: number } = {
+    x: width / 2,
+    y: height / 2,
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -18,5 +22,5 @@ export function useScreenSize() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  return { width, height, isMobile };
+  return { width, height, screenCenter, isMobile };
 }

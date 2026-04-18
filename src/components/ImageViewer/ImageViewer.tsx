@@ -4,13 +4,15 @@ import { useImageViewer } from "../../hooks/useImageViewer";
 import "./ImageViewer.css";
 import { useScreenSize } from "../../hooks/useScreenSize";
 
+const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+
 export default function ImageViewer() {
   const { image, setImage } = useImageViewer();
 
   const [scale, setScale] = useState(1);
   const [offsetX, setOffsetX] = useState(0);
   const [offsetY, setOffsetY] = useState(0);
-  const { width, height } = useScreenSize();
+  const { screenCenter } = useScreenSize();
 
   const scaleRef = useRef(scale);
   scaleRef.current = scale;
@@ -18,16 +20,16 @@ export default function ImageViewer() {
   const lastDistance = useRef<number | null>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const lastTouchCenter = useRef<{ x: number; y: number } | null>(null);
+  const maxScale = 5;
 
   useEffect(() => {
     const el = wrapperRef.current;
     if (!el) return;
-    const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
-    const screenCenter: { x: number; y: number } = {
-      x: width / 2,
-      y: height / 2,
-    };
-    const maxScale = 5;
+
+    // Reset
+    setOffsetX(0);
+    setOffsetY(0);
+    setScale(1);
 
     // Desktop
     const onWheel = (e: WheelEvent) => {
@@ -81,38 +83,36 @@ export default function ImageViewer() {
       }
 
       // Zoom double finger
-      if (e.touches.length === 2) {
-        const dx = e.touches[0].clientX - e.touches[1].clientX;
-        const dy = e.touches[0].clientY - e.touches[1].clientY;
-        const distance = Math.sqrt(dx * dx + dy * dy);
+      const dx = e.touches[0].clientX - e.touches[1].clientX;
+      const dy = e.touches[0].clientY - e.touches[1].clientY;
+      const distance = Math.sqrt(dx * dx + dy * dy);
 
-        const touchCenter = {
-          x: (e.touches[0].clientX + e.touches[1].clientX) / 2,
-          y: (e.touches[0].clientY + e.touches[1].clientY) / 2,
-        };
+      const touchCenter = {
+        x: (e.touches[0].clientX + e.touches[1].clientX) / 2,
+        y: (e.touches[0].clientY + e.touches[1].clientY) / 2,
+      };
 
-        if (lastDistance.current !== null) {
-          const delta = distance - lastDistance.current;
-          setScale((s) => Math.min(Math.max(s + delta * 0.01, 1), maxScale));
+      if (lastDistance.current !== null) {
+        const delta = distance - lastDistance.current;
+        setScale((s) => Math.min(Math.max(s + delta * 0.01, 1), maxScale));
 
-          // Offset
-          setOffsetX(
-            (prev) =>
-              prev +
-              (-(touchCenter.x - screenCenter.x) / screenCenter.x) *
-                delta *
-                0.3 *
-                (1 / scaleRef.current),
-          );
-          setOffsetY(
-            (prev) =>
-              prev +
-              (-(touchCenter.y - screenCenter.y) / screenCenter.y) *
-                delta *
-                0.3 *
-                (1 / scaleRef.current),
-          );
-        }
+        // Offset
+        setOffsetX(
+          (prev) =>
+            prev +
+            (-(touchCenter.x - screenCenter.x) / screenCenter.x) *
+              delta *
+              0.3 *
+              (1 / scaleRef.current),
+        );
+        setOffsetY(
+          (prev) =>
+            prev +
+            (-(touchCenter.y - screenCenter.y) / screenCenter.y) *
+              delta *
+              0.3 *
+              (1 / scaleRef.current),
+        );
 
         lastDistance.current = distance;
         lastTouchCenter.current = null;
