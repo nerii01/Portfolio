@@ -6,14 +6,20 @@ import { motion } from "framer-motion";
 import { useScreenSize } from "../../../hooks/useScreenSize";
 
 export default function Navbar() {
-  const { isMobile } = useScreenSize();
+  const { isMobile, width } = useScreenSize();
   const navbarRef = useRef<HTMLDivElement>(null);
   const [navHeigh, setNavHeight] = useState<string>("");
 
   useEffect(() => {
-    if (!navbarRef.current) return;
-    setNavHeight(`${navbarRef.current.offsetHeight}px`);
-  }, []);
+    const update = () => {
+      if (!navbarRef.current) return;
+      setNavHeight(`${navbarRef.current.offsetHeight}px`);
+    };
+
+    update();
+
+    document.fonts.ready.then(update);
+  }, [width]);
 
   return (
     <>

@@ -7,6 +7,7 @@ import Navbar from "./components/Navigation/Navbar/Navbar";
 import Collage from "./components/Layout/Collage/Collage";
 import { useScreenSize } from "./hooks/useScreenSize";
 import ImageViewer from "./components/ImageViewer/ImageViewer";
+import Landing from "./components/Landing/Landing";
 
 function App() {
   const images = [
@@ -102,8 +103,9 @@ function App() {
   return (
     <>
       <ImageViewer />
+      {/* <Navbar /> */}
+      <Landing />
       <div className="site-wrapper">
-        <Navbar />
         <div
           style={{
             width: "100%",
